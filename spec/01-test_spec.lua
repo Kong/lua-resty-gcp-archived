@@ -7,9 +7,9 @@ describe("Test", function()
     local gcp = GCP()
     local gcpToken = AccessToken()
     it("test", function()
-        local param = { projectsId = "warren-personal", secret = "kong-secret-cmek"}
+        local param = { projectsId = "59185215115", secret = "pass-rotate"}
         -- assert.same("Hi", gcp.accesstoken)
-        assert.same("Hi", gcp.secretmanager_v1.secrets.list(gcpToken, param))
+        assert.same("Hi", gcp.secretmanager_v1.secrets.get(gcpToken, param))
     end)
 
 end)
