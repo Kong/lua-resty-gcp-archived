@@ -8,6 +8,10 @@ ALL_URLS=(`curl https://discovery.googleapis.com/discovery/v1/apis | jq -r ".ite
 API_NAMES=(`curl https://discovery.googleapis.com/discovery/v1/apis | jq -r ".items[].id" | sed -e 's/:/_/g' | sed -e 's/[.]/p/g'`)
 ROCKSPEC_ADD=''
 
+#create `api` folder
+if [ ! -d $TARGET ]; then 
+  mkdir -p $TARGET
+fi
 
 for (( i=0; i<${#ALL_URLS[@]}; i++ ))
 do
