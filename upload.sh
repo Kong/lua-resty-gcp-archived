@@ -1,7 +1,5 @@
 #!/bin/bash
 
-mkdir -p ./src/resty/gcp/api
-
 TARGET=./src/resty/gcp/api
 
 ALL_URLS=(`curl https://discovery.googleapis.com/discovery/v1/apis | jq -r ".items[].discoveryRestUrl"`)

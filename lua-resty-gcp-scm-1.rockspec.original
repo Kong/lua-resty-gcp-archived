@@ -1,11 +1,11 @@
 package = "lua-resty-gcp"
 version = "scm-1"
 source = {
-   url = "https://github.com/KongHQ-CX/lua-resty-gcp.git"
+   url = "*** please add URL for source tarball, zip or repository here ***"
 }
 description = {
-   homepage = "Apache 2.0",
-   license = "https://github.com/KongHQ-CX/lua-resty-gcp"
+   homepage = "*** please enter a project homepage ***",
+   license = "*** please specify a license ***"
 }
 dependencies = {
    "lua-resty-jwt == 0.2.3-0",
