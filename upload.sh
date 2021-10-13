@@ -1,5 +1,7 @@
 #!/bin/bash
 
+mkdir -p ./src/resty/gcp/api
+
 TARGET=./src/resty/gcp/api
 
 ALL_URLS=(`curl https://discovery.googleapis.com/discovery/v1/apis | jq -r ".items[].discoveryRestUrl"`)
@@ -8,7 +10,6 @@ ROCKSPEC_ADD=''
 
 
 for (( i=0; i<${#ALL_URLS[@]}; i++ ))
-# for (( i=0; i<3; i++ ))
 do
    echo 'local decode = require("cjson").new().decode
 return assert(decode([===[' > "$TARGET/${API_NAMES[$i]}.lua"
@@ -18,8 +19,8 @@ return assert(decode([===[' > "$TARGET/${API_NAMES[$i]}.lua"
 
 done
 
-mv lua-resty-gcp-dev-1.rockspec lua-resty-gcp-dev-1.rockspec.original
+mv lua-resty-gcp-scm-1.rockspec lua-resty-gcp-scm-1.rockspec.original
 
-cp lua-resty-gcp-dev-1.rockspec.template lua-resty-gcp-dev-1.rockspec
+cp lua-resty-gcp-scm-1.rockspec.template lua-resty-gcp-scm-1.rockspec
 
-sed -i 's#--AUTOGEN--#'$ROCKSPEC_ADD'#g' lua-resty-gcp-dev-1.rockspec
+sed -i 's#--AUTOGEN--#'$ROCKSPEC_ADD'#g' lua-resty-gcp-scm-1.rockspec

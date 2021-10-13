@@ -26,6 +26,9 @@ local ApiDiscovery = function(url)
     end
     client:close()
     local apis = cjson.decode(res.body).items
+    if (not apis) then
+        error("Failed to get Discovery API")
+    end
     apiList = {}
     for k, v in pairs(apis) do
         local id, _ = string.gsub(v.id, ":", "_")

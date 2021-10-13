@@ -7,6 +7,10 @@ description = {
    homepage = "*** please enter a project homepage ***",
    license = "*** please specify a license ***"
 }
+dependencies = {
+   "lua-resty-jwt == 0.2.3-0",
+   "base64 == 1.5-3",
+}
 build = {
    type = "builtin",
    modules = {

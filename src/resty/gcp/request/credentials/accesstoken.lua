@@ -1,10 +1,14 @@
 local http = require "resty.gcp.request.http.http"
 local jwt = require "resty.jwt"
-local cjson = require("cjson")
+local cjson = require("cjson.safe").new()
 local base64 = require "base64"
 
 local function GetJwtToken(serviceAccount)
-    local saDecode = cjson.decode(serviceAccount)
+    local saDecode, err = cjson.decode(serviceAccount)
+    if type(saDecode) ~= "table" then
+        error("GCP Service Account expects JSON")
+        return
+    end
     local timeNow = os.time(os.date("!*t"))
     if (not (saDecode.client_email and saDecode.private_key and saDecode.private_key_id)) then
         error("Invalid GCP Service Account JSON")
