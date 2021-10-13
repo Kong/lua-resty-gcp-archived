@@ -1,5 +1,5 @@
 package = "lua-resty-gcp"
-version = "dev-1"
+version = "scm-1"
 source = {
    url = "*** please add URL for source tarball, zip or repository here ***"
 }

@@ -1,4 +1,4 @@
-local cjson = require("cjson")
+local cjson = require("cjson.safe").new()
 local http = require "resty.gcp.request.http.http"
 
 local lookup_helper = function(self, key) -- signature to match __index meta-method
