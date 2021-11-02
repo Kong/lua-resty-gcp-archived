@@ -1,5 +1,5 @@
 package = "lua-resty-gcp"
-version = "scm-1"
+version = "dev-1"
 source = {
    url = "*** please add URL for source tarball, zip or repository here ***"
 }
@@ -18,6 +18,7 @@ build = {
       ["resty.gcp.request.http.http"]                   = "src/resty/gcp/request/http/http.lua",
       ["resty.gcp.request.http.socket"]                 = "src/resty/gcp/request/http/socket.lua",
       ["resty.gcp.request.credentials.accesstoken"]     = "src/resty/gcp/request/credentials/accesstoken.lua",
+	  ["resty.gcp.request.discovery"]                   = "src/resty/gcp/request/discovery.lua",
 --START-MARKER--
 		["resty.gcp.api.abusiveexperiencereport_v1"]="src/resty/gcp/api/abusiveexperiencereport_v1.lua",
 		["resty.gcp.api.acceleratedmobilepageurl_v1"]="src/resty/gcp/api/acceleratedmobilepageurl_v1.lua",

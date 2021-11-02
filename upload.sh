@@ -1,9 +1,18 @@
 #!/bin/bash
 
-TARGET=./src/resty/gcp/api
+DISCOVERY_URL='https://discovery.googleapis.com/discovery/v1/apis'
 
-ALL_URLS=(`curl https://discovery.googleapis.com/discovery/v1/apis | jq -r ".items[].discoveryRestUrl"`)
-API_NAMES=(`curl https://discovery.googleapis.com/discovery/v1/apis | jq -r ".items[].id" | sed -e 's/:/_/g' | sed -e 's/[.]/p/g'`)
+TARGET=./src/resty/gcp
+
+echo 'local decode = require("cjson").new().decode
+return assert(decode([===[' > "$TARGET/request/discovery.lua"
+echo `curl $DISCOVERY_URL` >> "$TARGET/request/discovery.lua"
+echo ']===]))' >> "$TARGET/request/discovery.lua"
+
+
+
+ALL_URLS=(`curl $DISCOVERY_URL | jq -r ".items[].discoveryRestUrl"`)
+API_NAMES=(`curl $DISCOVERY_URL | jq -r ".items[].id" | sed -e 's/:/_/g' | sed -e 's/[.]/p/g'`)
 ROCKSPEC_ADD=''
 
 #create `api` folder
@@ -14,9 +23,9 @@ fi
 for (( i=0; i<${#ALL_URLS[@]}; i++ ))
 do
    echo 'local decode = require("cjson").new().decode
-return assert(decode([===[' > "$TARGET/${API_NAMES[$i]}.lua"
-   echo `curl ${ALL_URLS[$i]}` >> "$TARGET/${API_NAMES[$i]}.lua"
-   echo ']===]))' >> "$TARGET/${API_NAMES[$i]}.lua"
+return assert(decode([===[' > "$TARGET/api/${API_NAMES[$i]}.lua"
+   echo `curl ${ALL_URLS[$i]}` >> "$TARGET/api/${API_NAMES[$i]}.lua"
+   echo ']===]))' >> "$TARGET/api/${API_NAMES[$i]}.lua"
    ROCKSPEC_ADD+='\t\t["resty.gcp.api.'${API_NAMES[$i]}'"]="src/resty/gcp/api/'${API_NAMES[$i]}'.lua",\n'
 
 done

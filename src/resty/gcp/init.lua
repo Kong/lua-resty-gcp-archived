@@ -1,6 +1,7 @@
 local cjson = require("cjson.safe").new()
 local http = require "resty.gcp.request.http.http"
 
+
 local lookup_helper = function(self, key) -- signature to match __index meta-method
     if type(key) == "string" then
         local lckey = key:lower()
@@ -13,24 +14,25 @@ local lookup_helper = function(self, key) -- signature to match __index meta-met
     error(("key '%s' not found"):format(tostring(key)), 2)
 end
 
-local ApiDiscovery = function(url)
-    local req = {
-        method = "GET",
-        ssl_verify = false
-    }
-    local client = http.new()
-    res, err = client:request_uri(url, req)
-    if not res then
-        error(err)
-        return
-    end
-    client:close()
-    local apis = cjson.decode(res.body).items
-    if (not apis) then
-        error("Failed to get Discovery API")
-    end
+local ApiDiscovery = function(apis)
+    -- local req = {
+    --     method = "GET",
+    --     ssl_verify = false
+    -- }
+    -- local client = http.new()
+    -- res, err = client:request_uri(url, req)
+    -- if not res then
+    --     error(err)
+    --     return
+    -- end
+    -- client:close()
+    -- local apis = cjson.decode(res.body).items
+    -- if (not apis) then
+    --     error("Failed to get Discovery API")
+    -- end
+    local apis = require "resty.gcp.request.discovery"
     apiList = {}
-    for k, v in pairs(apis) do
+    for k, v in pairs(apis.items) do
         local id, _ = string.gsub(v.id, ":", "_")
         id, _ = string.gsub(id, "%.", "p")
         apiList[#apiList + 1] = id
@@ -109,8 +111,8 @@ local GCP = {}
 GCP.__index = lookup_helper
 
 function GCP:new()
-    local discoveryUrl = "https://discovery.googleapis.com/discovery/v1/apis"
-    local apis = ApiDiscovery(discoveryUrl)
+    -- local discoveryUrl = "https://discovery.googleapis.com/discovery/v1/apis"
+    local apis = ApiDiscovery()
     local servicesInstance = {}
     for _, service in pairs(apis) do
         local rawAPI = require("resty.gcp.api." .. service)
